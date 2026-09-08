@@ -7,12 +7,11 @@
 ### Turn the design into python code and improve on the original solution as needed
 
 ### I will post the orginal document with the proposed design and flowchart into the repository
+### (Built in Python 3.13 in Visual Studio Code, Windows 11 OS)
 
 # Measuring Execution Time
 import random
 import time
-begin = time.perf_counter()
-
 
 # Parameters
 
@@ -40,6 +39,9 @@ g_4 = [7, 19, 31, 43, 59, 73, 79, 89]
 ## Guess #5 will be consist of a series of lists conditional on the fourth guess (g_4)
 
 ## Function for guessing numbers
+
+##Start timer after input is received
+begin = time.perf_counter()
 
 n_g = 1
 g = 0
@@ -328,12 +330,9 @@ def guess(n_g, g):
         return n_g
     return n_g
 
-
 guess(n_g, g)
 
-
 number_of_guesses = guess(n_g, g)
-
 
 print("I was able to guess your number in ", number_of_guesses, " guesses!")
 end = time.perf_counter()
