@@ -8,7 +8,7 @@ import random as random
 import time
 
 constraint = 0.
-
+print("Play the magic number game! Please input your magic number and I will try to guess, all qualitative answers in lowercase please and thank you! :)")
 n = int(input("What is your magic number? "))
 
 def __quartileRange__(range, constraint):
