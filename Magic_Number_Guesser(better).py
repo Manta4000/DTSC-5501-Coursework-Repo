@@ -1,4 +1,4 @@
-### Second generation of magic number guessing algorithm based on feedback
+### Magic number guessing algorithm based on initial testing and experimentation
 ### Will deploy Sieve of Erasthones after using quartile range calculations instead of brute force
 ### This was made since I can't hard code a lot of if statements for more than 100 numbers, let alone 10000
 
