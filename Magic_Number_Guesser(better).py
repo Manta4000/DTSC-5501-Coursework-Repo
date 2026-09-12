@@ -40,10 +40,6 @@ def __quartileRange__(range, constraint):
 
     options = [int(options[0]), int(options[1])]
     options_list = np.arange(options[0], options[1] + 1)
-    if range <= 100:
-        print(options_list)
-    elif range > 100:
-        print(options_list[0], np.max(options_list)) ## In the event that the range is really large, I only need the beginning and end
     return options_list
 
 options = __quartileRange__(range, constraint)
@@ -55,7 +51,9 @@ non = []
 
 def __sieve__(p, n, non):
     maximum = int(np.max(options))
-    __mask = options >= 2
+    # Eliminate multiples of 2 and 3 before checking the remaining primes.
+    __mask = (options >= 2) & (options % 2 != 0) & (options % 3 != 0)
+    __mask |= np.isin(options, [2, 3])
     divisor = 2
 
     while divisor * divisor <= maximum:
@@ -63,7 +61,6 @@ def __sieve__(p, n, non):
         divisor += 1
 
     prime_options = options[__mask | (options == n)]
-    print(prime_options)
     return prime_options
 
         
@@ -100,3 +97,46 @@ __prime_filter(num, prime_options, constraint)
 end = time.perf_counter()
 print(f"Total runtime is {end - begin}")
 print("Program terminated.")
+
+
+def __multiple_filter__(upper_bound, factor):
+    upper_bound = int(upper_bound)
+    factor = int(factor)
+
+    if factor <= 0:
+        raise ValueError("factor must be a positive integer")
+
+    # Test multiples of two and three together, without testing duplicates.
+    multiples = np.arange(1, upper_bound + 1)
+    candidates = multiples[(multiples % 2 == 0) | (multiples % 3 == 0)]
+    guesses = 0
+
+    while candidates.size:
+        guess_index = len(candidates) // 2
+        guess = int(candidates[guess_index])
+        guesses += 1
+
+        if guesses % 10 == 0:
+            correct = input(f"Is {guess} your number? (yes/no) ").strip().lower()
+            if correct == "yes":
+                print("The number is", guess, "and I guessed it in", guesses, "guesses!")
+                return guess
+
+        if n == guess:
+            print("The number is", guess, "and I guessed it in", guesses, "guesses!")
+            return guess
+        elif n < guess:
+            # Continue through every candidate lower than this guess.
+            candidates = candidates[:guess_index]
+        else:
+            # Continue through every candidate higher than this guess.
+            candidates = candidates[guess_index + 1:]
+
+    print("The magic number was not a multiple of two or three.")
+    return None
+
+begin = time.perf_counter()
+multiple_of_two = __multiple_filter__(100, 2)
+multiple_of_three = __multiple_filter__(100, 3)
+end = time.perf_counter()
+print(f"Total runtime is {end - begin}")
